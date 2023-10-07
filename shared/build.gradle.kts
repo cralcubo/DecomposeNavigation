@@ -2,8 +2,11 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
+val decomposeVersion = "2.1.0"
+val essenty = "1.2.0"
 kotlin {
     androidTarget()
 
@@ -15,6 +18,8 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "shared"
             isStatic = true
+            export("com.arkivanov.decompose:decompose:$decomposeVersion-compose-experimental")
+            export("com.arkivanov.essenty:lifecycle:$essenty")
         }
     }
 
@@ -26,6 +31,11 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                api("com.arkivanov.decompose:decompose:$decomposeVersion-compose-experimental")
+                api("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion-compose-experimental")
+
+                api("com.arkivanov.essenty:lifecycle:$essenty")
             }
         }
         val androidMain by getting {
